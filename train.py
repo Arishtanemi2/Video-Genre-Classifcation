@@ -107,4 +107,4 @@ def main():
           load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=nb_epoch)
 
 if __name__ == '__main__':
-main()
+    main()
