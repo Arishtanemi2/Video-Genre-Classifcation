@@ -1,0 +1,6 @@
+action
+animation
+horror
+romance
+scifi
+sports
