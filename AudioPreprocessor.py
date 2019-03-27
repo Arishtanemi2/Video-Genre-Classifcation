@@ -1,5 +1,5 @@
 # USAGE: run it on command prompt with dependancies installed and miniconda/anaconda support
-# convertToWav.py <folder path> <sampling rate> <number of channels>
+# AudioPreprocessor.py <folder path> <sampling rate> <number of channels>
 #
 
 import glob, sys, os
