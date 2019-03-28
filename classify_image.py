@@ -5,7 +5,7 @@ import sys
 import tensorflow as tf
 
 def get_labels():
-    """Get a list of labels so we can see if it's an ad or not."""
+    """Get the  list of labels"""
     with open('./inception/retrained_labels.txt', 'r') as fin:
         labels = [line.rstrip('\n') for line in fin]
         return labels
