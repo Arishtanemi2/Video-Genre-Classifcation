@@ -126,10 +126,9 @@ if __name__ == "__main__":
     fps = FPS().start()
     graph = load_graph(model_file)
     sess=tf.Session(graph=graph)
-    
     # loop over the frames from the video stream
     while True:
-        frame = vs.read()
+        frame=vs.read()  
         cv2.imwrite('pic.jpg',frame)
         t = read_tensor_from_image_file(
             "pic.jpg",
