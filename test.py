@@ -25,6 +25,8 @@ import imutils
 import time
 import cv2
 
+
+res=''
 def load_graph(model_file):
   graph = tf.Graph()
   graph_def = tf.GraphDef()
@@ -126,6 +128,7 @@ if __name__ == "__main__":
     fps = FPS().start()
     graph = load_graph(model_file)
     sess=tf.Session(graph=graph)
+    
     # loop over the frames from the video stream
     while True:
         frame=vs.read()  
@@ -154,10 +157,10 @@ if __name__ == "__main__":
             print(labels[i], results[i])
             if max >= results[i]:
                 pos=i
-        cv2.putText(frame,labels[top_k[0]]+" "+str(results[top_k[0]]), (25,100),cv2.FONT_HERSHEY_SIMPLEX,1, (0, 0, 255), 3)
+        res=labels[top_k[0]]+" "+str(results[top_k[0]])
+        cv2.putText(frame,res, (25,100),cv2.FONT_HERSHEY_SIMPLEX,1, (0, 0, 255), 3)
         #cv2.putText(frame,str(results[0]), (25, 100),cv2.FONT_HERSHEY_SIMPLEX,4, (255, 0, 0), 5)
         cv2.imshow("Frame", frame)
-        
         key = cv2.waitKey(1) & 0xFF
         fps.update()
         # if the `q` key was pressed, break from the loop
