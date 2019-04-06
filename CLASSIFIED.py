@@ -5,7 +5,9 @@ from PyQt5.QtCore import pyqtSlot,Qt
 import ctypes
 import subprocess
 import test
-
+import imutils
+import cv2
+from imutils.video import FileVideoStream,FPS
 class App(QWidget):
     def __init__(self):
         super().__init__()
