@@ -39,13 +39,12 @@ class App(QWidget):
         layout.addWidget(button)
         self.horizontalGroupBox.setLayout(layout)
         #URL Load Button
-        button = QPushButton('Load URL', self)
-        button.setToolTip('paste video URL in the box')
-        button.move(640,20)
-        button.resize(90,50)
-        button.clicked.connect(self.select_url)
-        layout.addWidget(self.textbox)
-        layout.addWidget(button)
+        self.loadbutton = QPushButton('Load URL', self)
+        self.loadbutton.setToolTip('paste video URL in the box')
+        self.loadbutton.move(640,20)
+        self.loadbutton.resize(90,50)
+        self.loadbutton.clicked.connect(self.select_url)
+        layout.addWidget(self.loadbutton)
         self.horizontalGroupBox.setLayout(layout)
         #Classify Group Box
         self.ClassifyGroupBox = QGroupBox("")
@@ -79,7 +78,8 @@ class App(QWidget):
     def select_video(self):
         print('opened video explorer')
         self.file_path = QFileDialog.getOpenFileName(self, 'Select Video','C:\\',"Video files (*.mp4 *.avi)")
-        if self.file_path[0] :   
+        if self.file_path[0] : 
+            self.loadbutton.hide()  
             print(self.file_path[0])
             self.textbox.setText(self.file_path[0])
     def select_url(self):

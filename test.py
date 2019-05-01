@@ -123,7 +123,7 @@ if __name__ == "__main__":
     fps = FPS().start()
     graph = load_graph(model_file)
     sess=tf.Session(graph=graph)
-    skip=6
+    skip=12
     count=0
     # loop over the frames from the video stream
     while True:
