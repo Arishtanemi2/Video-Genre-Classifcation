@@ -11,7 +11,7 @@ from imutils.video import FileVideoStream,FPS
 class App(QWidget):
     def __init__(self):
         super().__init__()
-        self.title = 'PyQt5 simple window - pythonspot.com'
+        self.title = 'C.L.A.S.S.I.F.I.E.D.'
         self.left = 750
         self.top = 300
         self.width = 300
@@ -35,6 +35,15 @@ class App(QWidget):
         button.move(640,20)
         button.resize(90,50)
         button.clicked.connect(self.select_video)
+        layout.addWidget(self.textbox)
+        layout.addWidget(button)
+        self.horizontalGroupBox.setLayout(layout)
+        #URL Load Button
+        button = QPushButton('Load URL', self)
+        button.setToolTip('paste video URL in the box')
+        button.move(640,20)
+        button.resize(90,50)
+        button.clicked.connect(self.select_url)
         layout.addWidget(self.textbox)
         layout.addWidget(button)
         self.horizontalGroupBox.setLayout(layout)
@@ -73,10 +82,19 @@ class App(QWidget):
         if self.file_path[0] :   
             print(self.file_path[0])
             self.textbox.setText(self.file_path[0])
+    def select_url(self):
+        print('decoding url')
+        self.file_path = self.textbox.text()
+        if self.file_path[0] :   
+            print(self.file_path)
+            self.textbox.setText(self.file_path)
     def classify(self):
-        if self.file_path[0] : 
+        if self.file_path[0:4]!='http' : 
             print('started classifying video')
             subprocess.Popen("python test.py --graph=./inception/retrained_graph.pb --labels=./inception/retrained_labels.txt --input_layer=Placeholder --output_layer=final_result --video="+str(self.file_path[0]))
+        else :
+            print('started classifying video')
+            subprocess.Popen("python test.py --graph=./inception/retrained_graph.pb --labels=./inception/retrained_labels.txt --input_layer=Placeholder --output_layer=final_result --video="+str(self.file_path))
     def set_Result(self,prediction):
         self.ResultLabel.setText(prediction)
     

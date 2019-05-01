@@ -1,24 +1,10 @@
-# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from imutils.video import FileVideoStream,FPS
 import argparse
-
+import pafy
+import youtube_dl
 import numpy as np
 import tensorflow as tf
 import imutils
@@ -123,15 +109,32 @@ if __name__ == "__main__":
     if args.output_layer:
         output_layer = args.output_layer
     print("[INFO] starting video stream...")
-    vs = FileVideoStream(file_name).start()
+    isurl=False
+    if(args.video[:4]=="http"):
+      print('decoding URL')
+      url = args.video
+      vPafy = pafy.new(url)
+      play = vPafy.getbest(preftype="webm")
+      vs = cv2.VideoCapture(play.url)
+      isurl=True
+    else :
+      vs = FileVideoStream(file_name).start()
     time.sleep(1.0)
     fps = FPS().start()
     graph = load_graph(model_file)
     sess=tf.Session(graph=graph)
-    
+    skip=6
+    count=0
     # loop over the frames from the video stream
     while True:
-        frame=vs.read()  
+        if isurl==False:
+          frame=vs.read()
+        else:
+          ret,frame=vs.read()
+        if count < skip:
+          count+=1
+          continue
+        count=0
         cv2.imwrite('pic.jpg',frame)
         t = read_tensor_from_image_file(
             "pic.jpg",
@@ -171,4 +174,8 @@ if __name__ == "__main__":
     print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
     # do a bit of cleanup
     cv2.destroyAllWindows()
-    vs.stop()
+    if isurl==False:
+      vs.stop()
+    else:
+      vs.close()
+    exit()
